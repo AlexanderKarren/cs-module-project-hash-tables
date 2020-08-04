@@ -7,6 +7,14 @@ class HashTableEntry:
         self.value = value
         self.next = None
 
+    def find(self, key):
+        current = self
+        while (current.next is not None):
+            if current.key == key:
+                return current.value
+            current = current.next
+        return -1
+
 
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
@@ -21,8 +29,13 @@ class HashTable:
     """
 
     def __init__(self, capacity):
-        # Your code here
-
+        if (capacity >= 8):
+            self.capacity = capacity
+        else:
+            self.capacity = 8
+        self.storage = [None] * capacity
+        self.num_elements = 0
+        pass
 
     def get_num_slots(self):
         """
@@ -34,8 +47,7 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-
+        return len(self.storage)
 
     def get_load_factor(self):
         """
@@ -43,34 +55,41 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-
+        return self.num_elements / self.get_num_slots()
 
     def fnv1(self, key):
-        """
-        FNV-1 Hash, 64-bit
+        FNV_offset_basis = 14695981039346656037
+        FNV_prime = 1099511628211
 
-        Implement this, and/or DJB2.
-        """
+        hashed_var = FNV_offset_basis
 
-        # Your code here
+        string_bytes = key.encode()
 
+        for b in string_bytes:
+            hashed_var = hashed_var * FNV_prime
+            hashed_var = hashed_var ^ b
+
+        return hashed_var
 
     def djb2(self, key):
-        """
-        DJB2 hash, 32-bit
+        hash_var = 5381
 
-        Implement this, and/or FNV-1.
-        """
-        # Your code here
+        # creates an array of bytes
+        string_bytes = key.encode()
 
+        for b in string_bytes:
+            # << operator shifts bytes over to the left by specified number
+            # creates random, arbitrary number when added to itself
+            hash_var = ((hash_var << 5) + hash_var) + b
+
+        return hash_var
 
     def hash_index(self, key):
         """
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        #return self.fnv1(key) % self.capacity
+        # return self.fnv1(key) % self.capacity
         return self.djb2(key) % self.capacity
 
     def put(self, key, value):
@@ -81,8 +100,8 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-
+        idx = self.hash_index(key) % self.get_num_slots()
+        self.storage[idx] = HashTableEntry(key, value)
 
     def delete(self, key):
         """
@@ -92,8 +111,8 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-
+        idx = self.hash_index(key) % self.get_num_slots()
+        self.storage[idx] = None
 
     def get(self, key):
         """
@@ -103,8 +122,10 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-
+        idx = self.hash_index(key) % self.get_num_slots()
+        if self.storage[idx] is None:
+            return None
+        return self.storage[idx].value
 
     def resize(self, new_capacity):
         """
@@ -114,7 +135,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        pass
 
 
 if __name__ == "__main__":
