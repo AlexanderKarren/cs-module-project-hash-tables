@@ -9,11 +9,42 @@ class HashTableEntry:
 
     def find(self, key):
         current = self
-        while (current.next is not None):
+        while current is not None:
             if current.key == key:
                 return current.value
             current = current.next
-        return -1
+        return None
+
+    def insert(self, key, value):
+        current = self
+        while current is not None:
+            if current.key == key:
+                current.value = value
+                return
+            if current.next is None:
+                current.next = HashTableEntry(key, value)
+                return
+            else:
+                current = current.next
+        return
+
+    def remove(self, key):
+        current = self
+        next = current.next
+        prev = None
+        while current is not None:
+            # if next exists and the key matches,
+            # set current.next to the node after next
+            if next and next.key == key:
+                current.next = next.next
+                return
+            # if current key matches,
+            elif current.key == key:
+                prev.next = current.next
+                return
+            prev = current
+            current = next
+            next = current.next
 
 
 # Hash table can't have fewer than this many slots
@@ -101,7 +132,10 @@ class HashTable:
         Implement this.
         """
         idx = self.hash_index(key) % self.get_num_slots()
-        self.storage[idx] = HashTableEntry(key, value)
+        if self.storage[idx] is not None:
+            self.storage[idx].insert(key, value)
+        else:
+            self.storage[idx] = HashTableEntry(key, value)
 
     def delete(self, key):
         """
@@ -112,7 +146,15 @@ class HashTable:
         Implement this.
         """
         idx = self.hash_index(key) % self.get_num_slots()
-        self.storage[idx] = None
+        # If lead node is the node to be deleted
+        if self.storage[idx]:
+            if self.storage[idx].key == key:
+                node_to_delete = self.storage[idx]
+                self.storage[idx] = node_to_delete.next
+                node_to_delete.next = None
+            else:
+                self.storage[idx].remove(key)
+        # self.storage[idx] = None
 
     def get(self, key):
         """
@@ -125,6 +167,9 @@ class HashTable:
         idx = self.hash_index(key) % self.get_num_slots()
         if self.storage[idx] is None:
             return None
+        # if key is not a match, run find method to loop through
+        elif self.storage[idx].key != key:
+            return self.storage[idx].find(key)
         return self.storage[idx].value
 
     def resize(self, new_capacity):
