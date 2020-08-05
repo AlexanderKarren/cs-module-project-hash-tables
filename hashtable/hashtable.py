@@ -179,8 +179,15 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-        pass
+        old_storage = self.storage
+        self.storage = [None] * new_capacity
+
+        for entry in old_storage:
+            if entry:
+                current = entry
+                while current is not None:
+                    self.put(current.key, current.value)
+                    current = current.next
 
 
 if __name__ == "__main__":
