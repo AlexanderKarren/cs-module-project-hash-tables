@@ -34,9 +34,9 @@ FNV-1 (64 bit) hashing functions, there are no collisions.
 
 Task: Implement linked-list chaining for collision resolution.
 
-1. Modify `put()`, `get()`, and `delete()` methods to handle collisions.
+1. [x] Modify `put()`, `get()`, and `delete()` methods to handle collisions.
 
-2. There is no step 2.
+2. [x] There is no step 2.
 
 You can test this with:
 
@@ -47,9 +47,9 @@ python test_hashtable.py
 Task: Implement load factor measurements and automatic hashtable size
 doubling.
 
-1. Compute and maintain load factor.
+1. [x] Compute and maintain load factor.
 
-2. When load factor increases above `0.7`, automatically rehash the
+2. [x] When load factor increases above `0.7`, automatically rehash the
    table to double its previous size.
 
    Add the `resize()` method.
@@ -73,12 +73,11 @@ For these, you can use either the built-in `dict` type, or the hashtable
 you built. (Some of these are easier with `dict` since it's more
 full-featured.)
 
-* [Lookup Table](applications/lookup_table/)
-* [Expensive Sequence](applications/expensive_seq/)
-* [Word Count](applications/word_count/)
-* [No Duplicates](applications/no_dups/)
-* [Markov Chains](applications/markov/)
-* [Histogram](applications/histo/)
-* [Cracking Caesar Ciphers](applications/crack_caesar/)
-* [Sum and Difference](applications/sumdiff/)
-
+* [x] [Lookup Table](applications/lookup_table/)
+* [x] [Expensive Sequence](applications/expensive_seq/)
+* [x] [Word Count](applications/word_count/)
+* [x] [No Duplicates](applications/no_dups/)
+* [x] [Markov Chains](applications/markov/)
+* [ ] [Histogram](applications/histo/)
+* [ ] [Cracking Caesar Ciphers](applications/crack_caesar/)
+* [ ] [Sum and Difference](applications/sumdiff/)

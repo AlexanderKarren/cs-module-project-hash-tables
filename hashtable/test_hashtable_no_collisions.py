@@ -8,10 +8,13 @@ Does not collide with DJB2 or FNV-1-64. But could collide with other hashes.
 import unittest
 from hashtable import HashTable
 
+
 class TestHashTable(unittest.TestCase):
 
     def test_hash_table_insertion_and_retrieval(self):
         ht = HashTable(0x10000)
+
+        print("num_slots:", ht.get_num_slots())
 
         ht.put("key-0", "val-0")
         ht.put("key-1", "val-1")
@@ -61,11 +64,13 @@ class TestHashTable(unittest.TestCase):
         ht.delete("key-0")
 
         return_value = ht.get("key-0")
+        print(return_value)
         self.assertTrue(return_value is None)
         return_value = ht.get("key-1")
         self.assertTrue(return_value is None)
         return_value = ht.get("key-2")
         self.assertTrue(return_value is None)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -24,5 +24,6 @@ class TestWordCount(unittest.TestCase):
         x = word_count('a a\ra\na\ta \t\r\n')
         self.assertTrue(x == {"a": 5})
 
+
 if __name__ == '__main__':
     unittest.main()

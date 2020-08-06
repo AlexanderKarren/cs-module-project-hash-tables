@@ -70,6 +70,7 @@ class TestHashTable(unittest.TestCase):
         return_value = ht.get("key-1")
         self.assertTrue(return_value == "new-val-1")
         return_value = ht.get("key-2")
+        print(return_value)
         self.assertTrue(return_value == "new-val-2")
         return_value = ht.get("key-3")
         self.assertTrue(return_value == "new-val-3")
@@ -131,6 +132,7 @@ class TestHashTable(unittest.TestCase):
         ht.delete("key-0")
 
         return_value = ht.get("key-0")
+        print(return_value)
         self.assertTrue(return_value is None)
         return_value = ht.get("key-1")
         self.assertTrue(return_value is None)
@@ -147,9 +149,9 @@ class TestHashTable(unittest.TestCase):
         return_value = ht.get("key-7")
         self.assertTrue(return_value is None)
         return_value = ht.get("key-8")
-        self.assertTrue(return_value is "val-8")
+        self.assertTrue(return_value == "val-8")
         return_value = ht.get("key-9")
-        self.assertTrue(return_value is "val-9")
+        self.assertTrue(return_value == "val-9")
 
         ht.delete("key-9")
         ht.delete("key-8")
@@ -158,6 +160,7 @@ class TestHashTable(unittest.TestCase):
         self.assertTrue(return_value is None)
         return_value = ht.get("key-9")
         self.assertTrue(return_value is None)
+
 
 if __name__ == '__main__':
     unittest.main()
