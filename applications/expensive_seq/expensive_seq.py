@@ -19,4 +19,6 @@ if __name__ == "__main__":
         x = expensive_seq(i*2, i*3, i*4)
         print(f"{i*2} {i*3} {i*4} = {x}")
 
+    print("Running expensive_seq(150, 400, 800)...")
+
     print(expensive_seq(150, 400, 800))
