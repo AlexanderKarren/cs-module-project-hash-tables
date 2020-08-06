@@ -60,10 +60,10 @@ class HashTable:
     """
 
     def __init__(self, capacity):
-        if (capacity >= 8):
+        if (capacity >= MIN_CAPACITY):
             self.capacity = capacity
         else:
-            self.capacity = 8
+            self.capacity = MIN_CAPACITY
         self.storage = [None] * capacity
         self.num_elements = 0
         pass
@@ -123,7 +123,7 @@ class HashTable:
         # return self.fnv1(key) % self.capacity
         return self.djb2(key) % self.capacity
 
-    def put(self, key, value):
+    def put(self, key, value, resize=True):
         """
         Store the value with the given key.
 
@@ -136,6 +136,13 @@ class HashTable:
             self.storage[idx].insert(key, value)
         else:
             self.storage[idx] = HashTableEntry(key, value)
+        self.num_elements += 1
+        if resize and self.get_load_factor() > 0.7:
+            print("load factor:", self.get_load_factor(), "upsizing")
+            self.resize(len(self.storage) * 2)
+        elif resize and self.get_load_factor() < 0.2:
+            print("load factor:", self.get_load_factor(), "downsizing")
+            self.resize(len(self.storage) // 2)
 
     def delete(self, key):
         """
@@ -154,6 +161,7 @@ class HashTable:
                 node_to_delete.next = None
             else:
                 self.storage[idx].remove(key)
+            self.num_elements -= 1
         # self.storage[idx] = None
 
     def get(self, key):
@@ -179,6 +187,9 @@ class HashTable:
 
         Implement this.
         """
+        if new_capacity < MIN_CAPACITY:
+            new_capacity = MIN_CAPACITY
+
         old_storage = self.storage
         self.storage = [None] * new_capacity
 
@@ -186,7 +197,7 @@ class HashTable:
             if entry:
                 current = entry
                 while current is not None:
-                    self.put(current.key, current.value)
+                    self.put(current.key, current.value, False)
                     current = current.next
 
 
